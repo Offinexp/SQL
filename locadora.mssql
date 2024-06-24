@@ -1,0 +1,284 @@
+-- Iniciando a criação das tabelas pelas primary key
+
+CREATE TABLE endereco (
+    cod_end INT PRIMARY KEY,
+    logradouro VARCHAR(40),
+    tipo_log VARCHAR(40),
+    complemento VARCHAR(20),
+    cidade VARCHAR(60),
+    UF VARCHAR(2),
+    CEP VARCHAR(8),
+    numero VARCHAR(10),
+    bairro VARCHAR(60)
+);
+
+CREATE TABLE profissao (
+    cod_prof INT PRIMARY KEY,
+    nome VARCHAR(60)
+);
+
+CREATE TABLE cliente (
+    cod_cli INT PRIMARY KEY,
+    CPF VARCHAR(11),
+	nome VARCHAR(60),
+    telefone VARCHAR(10),
+    cod_prof INT, 
+    FOREIGN KEY (cod_prof) REFERENCES profissao(cod_prof)
+);
+
+CREATE TABLE locacao (
+    cod_loc INT PRIMARY KEY,
+    data_loc DATE,
+    desconto NUMERIC(15,2),
+    multa NUMERIC(15,2),
+    sub_total NUMERIC(15,2),
+    cod_cli INT, 
+    FOREIGN KEY (cod_cli) REFERENCES cliente(cod_cli)
+);
+
+CREATE TABLE categoria (
+    cod_cat INT PRIMARY KEY,
+    nome VARCHAR(60),
+    valor NUMERIC(15,2)
+);
+
+CREATE TABLE genero (
+    cod_gen INT PRIMARY KEY,
+    nome VARCHAR(60)
+);
+
+CREATE TABLE filmes (
+    cod_filme INT PRIMARY KEY,
+    titulo_original VARCHAR(100),
+    titulo VARCHAR(100),
+    quantidade INT,
+    cod_cat INT, 
+    cod_gen INT, 
+    FOREIGN KEY (cod_cat) REFERENCES categoria(cod_cat),
+    FOREIGN KEY (cod_gen) REFERENCES genero(cod_gen)
+);
+
+CREATE TABLE ator (
+    cod_ator INT PRIMARY KEY,
+    nome VARCHAR(60)
+);
+
+-- Dando inicio as tabelas com Foreign Keys
+
+CREATE TABLE cli_endereco (
+    cod_end INT, 
+    cod_cli INT, 
+    FOREIGN KEY (cod_end) REFERENCES endereco(cod_end),
+    FOREIGN KEY (cod_cli) REFERENCES cliente(cod_cli)
+);
+
+CREATE TABLE dependente (
+    cod_dep INT PRIMARY KEY,
+    parentesco VARCHAR(20),
+    cod_cli INT, 
+    FOREIGN KEY (cod_cli) REFERENCES cliente(cod_cli),
+    FOREIGN KEY (cod_dep) REFERENCES cliente(cod_cli)
+);
+
+CREATE TABLE locacao_filme (
+    valor NUMERIC(15,2),
+    num_dias INT,
+    data_devol DATE,
+    cod_loc INT,
+    cod_filme INT, 
+    FOREIGN KEY (cod_loc) REFERENCES locacao(cod_loc),
+    FOREIGN KEY (cod_filme) REFERENCES filmes(cod_filme)
+);
+
+CREATE TABLE filme_ator (
+    cod_ator INT,
+    cod_filme INT, 
+    ator VARCHAR(20),
+    diretor VARCHAR(10),
+    FOREIGN KEY (cod_ator) REFERENCES ator(cod_ator),
+    FOREIGN KEY (cod_filme) REFERENCES filmes(cod_filme)
+);
+
+-- Iniciando as Inserções:
+
+-- CATEGORIA
+INSERT INTO categoria (cod_cat, nome, valor) VALUES
+(1, 'Ação', 100.00),
+(2, 'Comédia', 80.00),
+(3, 'Drama', 90.00),
+(4, 'Terror', 70.00),
+(5, 'Ficção Científica', 120.00)
+
+SELECT * FROM categoria
+	
+-- GÊNERO
+	
+INSERT INTO genero (cod_gen, nome) VALUES 
+(1, 'Aventura'),
+(2, 'Romance'),
+(3, 'Suspense'),
+(4, 'Fantasia'),
+(5, 'Documentário')
+
+SELECT * FROM genero
+
+-- FILMES 
+	
+INSERT INTO filmes (cod_filme, titulo_original, titulo, quantidade, cod_cat, cod_gen) VALUES 
+(1, 'Die Hard', 'Duro de Matar', 10, 1, 1),
+(2, 'The Hangover', 'Se Beber, Não Case', 8, 2, 2),
+(3, 'The Godfather', 'O Poderoso Chefão', 5, 3, 3),
+(4, 'The Exorcist', 'O Exorcista', 7, 4, 4),
+(5, 'Inception', 'A Origem', 12, 5, 1),
+(6, 'Lethal Weapon', 'Máquina Mortífera', 9, 1, 2),
+(7, 'The Mask', 'O Máskara', 8, 2, 3),
+(8, 'Schindler List', 'A Lista de Schindler', 4, 3, 4),
+(9, 'Paranormal Activity', 'Atividade Paranormal', 6, 4, 5),
+(10, 'Blade Runner', 'Blade Runner', 10, 5, 1),
+(11, 'Mad Max', 'Mad Max', 11, 1, 2),
+(12, 'Superbad', 'Superbad - É Hoje', 8, 2, 3),
+(13, 'Fight Club', 'Clube da Luta', 7, 3, 4),
+(14, 'The Conjuring', 'Invocação do Mal', 9, 4, 5),
+(15, 'Interstellar', 'Interestelar', 13, 5, 1);
+
+SELECT * FROM filmes
+
+-- ATOR
+
+INSERT INTO ator (cod_ator, nome) VALUES 
+(1, 'Bruce Willis'),
+(2, 'Bradley Cooper'),
+(3, 'Marlon Brando'),
+(4, 'Linda Blair'),
+(5, 'Leonardo DiCaprio'),
+(6, 'Mel Gibson'),
+(7, 'Jim Carrey'),
+(8, 'Liam Neeson'),
+(9, 'Katie Featherston'),
+(10, 'Harrison Ford'),
+(11, 'Tom Hardy'),
+(12, 'Jonah Hill'),
+(13, 'Edward Norton'),
+(14, 'Patrick Wilson'),
+(15, 'Matthew McConaughey')
+
+-- Filme_ator
+
+INSERT INTO filme_ator (cod_ator, cod_filme, ator, diretor) VALUES 
+(1, 1, 'sim', 'não'),
+(2, 2, 'não', 'sim'),
+(3, 3, 'sim', 'não'),
+(4, 4, 'sim', 'não'),
+(5, 5, 'não', 'sim'),
+(6, 6, 'sim', 'não'),
+(7, 7, 'não', 'sim'),
+(8, 8, 'sim', 'não'),
+(9, 9, 'não', 'sim'),
+(10, 10, 'não', 'sim'),
+(11, 11, 'sim', 'não'),
+(12, 12, 'sim', 'não'),
+(13, 13, 'não', 'sim'),
+(14, 14, 'sim', 'não'),
+(15, 15, 'não', 'sim')
+
+SELECT * FROM filme_ator
+
+--LOCACAO 
+
+INSERT INTO locacao (cod_loc, data_loc, desconto, multa, sub_total, cod_cli) VALUES 
+(1, '2024-01-07', 0.00, 0.00, 50.00, 2),
+(2, '2024-01-10', 5.00, 0.00, 40.00, 2),
+(3, '2024-01-12', 0.00, 2.00, 35.00, 3),
+(4, '2024-01-15', 3.00, 0.00, 45.00, 4),
+(5, '2024-01-17', 0.00, 0.00, 60.00, 5),
+(6, '2024-01-20', 2.00, 0.00, 38.00, 6),
+(7, '2024-01-23', 0.00, 1.00, 42.00, 7),
+(8, '2024-01-26', 4.00, 0.00, 55.00, 8),
+(9, '2024-01-29', 0.00, 0.00, 48.00, 9),
+(10, '2024-02-01', 0.00, 0.00, 50.00, 10),
+(11, '2024-02-04', 0.00, 3.00, 53.00, 11),
+(12, '2024-02-07', 1.00, 0.00, 40.00, 12),
+(13, '2024-02-10', 0.00, 2.00, 37.00, 13),
+(14, '2024-02-13', 2.00, 0.00, 44.00, 14),
+(15, '2024-02-16', 0.00, 0.00, 60.00, 15)
+
+SELECT * FROM locacao
+
+--PROFISSAO
+INSERT INTO profissao (cod_prof, nome) VALUES 
+(1, 'Engenheiro'),
+(2, 'Médico'),
+(3, 'Professor'),
+(4, 'Advogado'),
+(5, 'Designer')
+
+SELECT * FROM profissao
+
+--CLIENTE
+INSERT INTO cliente (cod_cli, CPF, nome, telefone, cod_prof) VALUES 
+(1, '12345678901', 'João Silva', '1234567890', 1),
+(2, '23456789012', 'Maria Santos', '2345678901', 2),
+(3, '34567890123', 'Pedro Oliveira', '3456789012', 3),
+(4, '45678901234', 'Ana Costa', '4567890123', 4),
+(5, '56789012345', 'Paulo Souza', '5678901234', 5),
+(6, '67890123456', 'Lucas Almeida', '6789012345', 1),
+(7, '78901234567', 'Fernanda Lima', '7890123456', 2),
+(8, '89012345678', 'Gustavo Rocha', '8901234567', 3),
+(9, '90123456789', 'Juliana Pereira', '9012345678', 4),
+(10, '01234567890', 'Rafael Mendes', '0123456789', 5),
+(11, '11234567890', 'Bruno Fernandes', '1123456780', 1),
+(12, '12234567890', 'Carla Nogueira', '1223456781', 2),
+(13, '13234567890', 'Ricardo Batista', '1323456782', 3),
+(14, '14234567890', 'Sofia Martins', '1423456783', 4),
+(15, '15234567890', 'Eduardo Azevedo', '1523456784', 5)
+
+SELECT * FROM cliente
+
+--ENDERECO
+INSERT INTO endereco (cod_end, logradouro, tipo_log, complemento, cidade, UF, CEP, numero, bairro) VALUES 
+(1, 'Rua das Flores', 'Rua', 'Apt 101', 'São Paulo', 'SP', '01001000', '100', 'Centro'),
+(2, 'Avenida Paulista', 'Avenida', 'Sala 210', 'São Paulo', 'SP', '01311000', '2000', 'Bela Vista'),
+(3, 'Rua Augusta', 'Rua', '', 'São Paulo', 'SP', '01304000', '150', 'Consolação'),
+(4, 'Praça da Sé', 'Praça', '', 'São Paulo', 'SP', '01001001', '10', 'Sé'),
+(5, 'Avenida Ipiranga', 'Avenida', 'Apt 301', 'São Paulo', 'SP', '01046000', '100', 'República'),
+(6, 'Rua da Consolação', 'Rua', 'Casa 4', 'São Paulo', 'SP', '01302000', '350', 'Consolação'),
+(7, 'Avenida São João', 'Avenida', 'Sala 410', 'São Paulo', 'SP', '01035000', '700', 'Centro'),
+(8, 'Rua 25 de Março', 'Rua', '', 'São Paulo', 'SP', '01021000', '250', 'Centro'),
+(9, 'Avenida Brigadeiro Luís Antônio', 'Avenida', 'Apt 702', 'São Paulo', 'SP', '01318000', '1500', 'Bela Vista'),
+(10, 'Rua Oscar Freire', 'Rua', 'Apt 101', 'São Paulo', 'SP', '01426000', '120', 'Jardins'),
+(11, 'Rua Haddock Lobo', 'Rua', '', 'São Paulo', 'SP', '01414000', '180', 'Jardins'),
+(12, 'Avenida Rebouças', 'Avenida', 'Casa 5', 'São Paulo', 'SP', '05402000', '500', 'Pinheiros'),
+(13, 'Rua dos Pinheiros', 'Rua', 'Apt 102', 'São Paulo', 'SP', '05422000', '60', 'Pinheiros'),
+(14, 'Avenida Faria Lima', 'Avenida', 'Sala 810', 'São Paulo', 'SP', '04538000', '1000', 'Itaim Bibi'),
+(15, 'Rua Clodomiro Amazonas', 'Rua', 'Apt 202', 'São Paulo', 'SP', '04537000', '360', 'Itaim Bibi');
+
+-- CLI_ENDERECO
+INSERT INTO cli_endereco (cod_end, cod_cli) VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15)
+
+SELECT * FROM cli_endereco
+
+--DEPENDENTE 
+
+INSERT INTO dependente (cod_dep, parentesco, cod_cli) VALUES 
+(2, 'Filho', 1),
+(3, 'Cônjuge', 1),
+(5, 'Filho', 4),
+(6, 'Cônjuge', 4),
+(8, 'Filho', 7)
+
+SELECT * FROM dependente
