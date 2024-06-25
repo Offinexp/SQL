@@ -9,10 +9,6 @@ As instruções SQL incluídas cobrem desde a criação de tabelas com chaves pr
 
 
 # Exercicios 
-
-<h3>Visualizar em arquivo de exercícios</h3>
-
-
 <p>1- Listar todos os filmes alugados por um cliente específico, incluindo a data de locação e a data de devolução.</p>
 <p>2  - Obter uma lista de clientes e seus dependentes.</p>
 <p>3  - Listar todos os filmes de um determinado gênero.</p>
