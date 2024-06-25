@@ -5,6 +5,9 @@
 Este projeto demonstra a criação e manipulação de tabelas em um banco de dados de uma locadora de filmes.
 As instruções SQL incluídas cobrem desde a criação de tabelas com chaves primárias e estrangeiras até a inserção de dados iniciais nas tabelas.
 
+![image](https://github.com/Offinexp/SQL/assets/113072187/a44d6f1c-0493-47dd-9763-aaed3d157897)
+
+
 # Exercicios 
 
 <h3>Visualizar em arquivo de exercícios</h3>
